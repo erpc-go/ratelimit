@@ -2,10 +2,11 @@ package limit
 
 import (
 	"fmt"
-	"github/edte/elimit/tools"
 	"log"
 	"testing"
 	"time"
+
+	"github.com/erpc-go/limit/tools"
 )
 
 func TestNewCount(t *testing.T) {

@@ -24,19 +24,21 @@ type LimitLeakyBucket struct {
 	bucketSize float64 // 桶大小
 	cur        float64 // 当前水位
 	waterWate  float64 // 水流出速率
+	mu         sync.Mutex
 }
 
 func NewLeakyBucketLimit(c *Config) *LimitLeakyBucket {
 	l := &LimitLeakyBucket{
-		bucketSize: defaultBucketSize, // 默认桶大小
 		bucket:     make(chan struct{}, defaultBucketSize),
 		ok:         make(chan struct{}, 1),
 		rate:       c.Rate,
 		circle:     c.Circle,
 		once:       sync.Once{},
 		lasttime:   time.Now().UnixNano(),
+		bucketSize: defaultBucketSize,
 		cur:        0,
 		waterWate:  float64(c.Rate) / float64(c.Circle),
+		mu:         sync.Mutex{},
 	}
 
 	return l
@@ -71,6 +73,9 @@ func (li *LimitLeakyBucket) Wait() {
 // 异步限流
 // 先更新漏水情况，然后尝试加水
 func (li *LimitLeakyBucket) Allow() bool {
+	li.mu.Lock()
+	defer li.mu.Unlock()
+
 	// [step 1] 获取当前时间
 	now := time.Now().UnixNano()
 

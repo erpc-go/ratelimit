@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github/edte/elimit/tools"
+	"github.com/erpc-go/limit/tools"
 )
 
 func TestNewLeakyBucketLimit(t *testing.T) {

@@ -3,7 +3,6 @@ package limit
 // 简单使用 channel 实现的限流算法
 
 import (
-	// "fmt"
 	"fmt"
 	"sync"
 	"time"
