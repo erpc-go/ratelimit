@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/erpc-go/limit/tools"
+	"github.com/erpc-go/ratelimit/tools"
 )
 
 func TestNewCount(t *testing.T) {
